@@ -1,3 +1,5 @@
+<!-- /* jshint esversion: 6 */  -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,36 +12,92 @@
 
 <div id = "schedule"></div>
 <div id = "grades"></div>
+<div id = "classes"></div>
+<div id = "homework"></div>
+<div id = "homeworkdiv"></div>
+
 
 <button id ="getschedule">Get your schedule!</button>
 
 <button id ="getgrades">Get your grades!</button>
-
-<input id="createclass" />
+<button id ="gethomework">Get your homework!</button>
+<br>
+<input id="homeworkclass">
+<button id ="homeworkbutton">Submit your homework!</button>
+<br>
+<input id="createclass">
 <button id="sendcreatedclass">Add to your schedule!</button>
 
 
 
 <script>
 
-function sendClass(classToCreate){
-		$.post("/classes", classToCreate, function(response){
+	function sendClass(classToCreate){
+		console.log(classToCreate);
+		$.post("/schedule", classToCreate, function(response){
 		});
+
+		getClasses();
 	}
 
 	$("#sendcreatedclass").click(function(){
-		sendClass($("#createdclass").val());
+		sendClass($("#createclass").val());
 	});
 	
 	function getClasses(){
-		$.get("/classes", function(response){
-			$('#classes').text(response);
+		$.get("/schedule", function(response){
+			var Names = [];
+			var classes = JSON.parse(response);
+			for (var obj of classes){
+				Names.push(obj.name + "<br>");
+			}
+			$('#classes').html(Names);
 		});
 	}
 
-	getClasses();
-
 	$('#getschedule').click(getClasses);
+
+	function getGrades(){
+		$.get("/grades", function(response){
+			var Grades = [];
+			var classes = JSON.parse(response);
+			for (var obj of classes){
+				Grades.push(obj.name + ": " + obj.grade + "<br>");
+			}
+			$('#classes').html(Grades);
+		});
+	}
+
+	$('#getgrades').click(getGrades);
+
+	function getHomework(){
+		$.get("/homework", function(response){
+			var homework = [];
+			var classes = JSON.parse(response);
+			for (var obj of classes){
+				if (obj.homework === true){
+					homework.push(obj.name + ": You have homework due!" + "<br>");
+				}
+				else if (obj.homework === false){
+					homework.push(obj.name + ": You do not have any homework." + "<br>");
+				}
+			}
+			$('#classes').html(homework);
+		});
+	}
+
+	$('#gethomework').click(getHomework);
+
+	function submitHomework(homework){
+		$.post("/submithomework", homework, function(response){
+		});
+		getHomework();
+	}
+
+	$("#homeworkbutton").click(function(){
+		submitHomework($("#homeworkclass").val());
+	});
+
 	
 </script>
 	

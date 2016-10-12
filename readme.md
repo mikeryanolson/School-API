@@ -16,7 +16,7 @@ Here are some facts about the school simulation:
 
 ## API Specification:
 
-### /grades
+### /grades - DONE
 
 ```GET /grades```
 
@@ -29,7 +29,7 @@ Returns the current grades for the user in JSON format.
     english : "B"
 }
 ```
-### /schedule
+### /schedule - DONE
 
 ```GET /schedule```
 
@@ -42,9 +42,9 @@ Return the current schedule for the user in JSON format.
 
 A POST to /schedule with a post document variable called "class_name" should add that class to the user's schedule.
 
-### /homework
+### /homework - Done
 
-```GET /homework/:class_name```
+```GET /homework/:class_name``` - DONE
 
 Returns whether the student has completed their homework for the class matching class_name
 

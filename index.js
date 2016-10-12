@@ -3,21 +3,35 @@
 var http = require("http");
 var fs = require("fs");
 
+
 var classes = [
-	"Intro to Introductions",
-	"101 202",
-	"How to lose a man in 10 days",
-	"Woodworking in the age of plastics",
-	"Photography for the Blind",
+{
+    name: "Intro to Introductions",
+    grade: "B",
+    homework: false
+},
+{
+    name: "101 202",
+    grade: "A+",
+    homework: false
+},
+{
+    name: "How to lose a man in 10 days",
+    grade: "A+",
+    homework: true
+},
+{
+    name: "Woodworking in the age of plastics",
+    grade: "A+",
+    homework: true
+},
+{
+    name: "Photography for the Blind",
+    grade: "A+",
+    homework: true
+}
 ];
 
-var grades = [
-	"Intro to Introductions : A",
-	"101 202 : C-",
-	"How to lose a man in 10 days: B+",
-	"Woodworking in the age of plastics : C",
-	"Photography for the Blind : F",
-];
 
 var server = http.createServer((req, res) => {
  if (req.url === "/index.html" || req.url === "/"){
@@ -25,12 +39,13 @@ var server = http.createServer((req, res) => {
             res.write(data);
             res.end();
         });
-    } else if(req.url === "/schedule") {	
+    } 
+    else if(req.url === "/schedule") {	
     	if (req.method === "GET") {
     	res.write(JSON.stringify(classes));
     	res.end();
-    } else if (req.method === "POST"){
-    	var queryData = "";
+        } else if (req.method === "POST"){
+    	   var queryData = "";
 
             req.on('data', function(data) {
                 queryData += data;
@@ -42,15 +57,46 @@ var server = http.createServer((req, res) => {
             });
 
             req.on('end', function() {
-                classes.push(queryData);
+                var obj = {
+                    name: queryData,
+                    grade: "TBD",
+                    homework: "TBD"
+                };
+                classes.push(obj);
             });
-    	}
+    	   }
     }
     else if(req.url === "/grades") {	
-    	res.write(JSON.stringify(grades));
+    	res.write(JSON.stringify(classes));
     	res.end();
     }
-    
+    else if(req.url === "/homework") {    
+        res.write(JSON.stringify(classes));
+        res.end();
+    }
+    else if(req.url === "/submithomework") { 
+        if (req.method === "POST"){
+           var queryHW = "";
+
+            req.on('data', function(data) {
+                queryHW += data;
+                if(queryHW.length > 1e6) { 
+                    queryHW = "";
+                    res.writeHead(413, {'Content-Type': 'text/plain'}).end();
+                    req.connection.destroy();
+                }
+            });
+            req.on('end', function() {
+                for (var obj of classes){
+                    if (queryHW === obj.name){
+                        obj.homework = false;
+                    }
+                }
+                
+            });
+
+           }
+    }
 });
 
 
@@ -58,5 +104,5 @@ var server = http.createServer((req, res) => {
 
 
 server.listen(3800, () => {
-    console.log("Server started on port 8000");
+    console.log("Server started on port 3800");
 });
