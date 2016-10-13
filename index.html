@@ -7,9 +7,25 @@
 	<title>Document</title>
 	<script src="http://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<style>
+		#maindiv {
+			margin: auto;
+			width: 50%;
+    		border: 3px solid green;
+    		padding: 10px;
+    		text-align: center;
+    		margin-top: 5%;
+    		background-color: #F7F7F7;
+		}
+		body{
+			background-image: url("https://hohsblog.files.wordpress.com/2013/04/back-of-school-in-sun1.jpg");
+			background-size: cover;
+		}
+	</style>
 </head>
 <body>
-
+<div id ="maindiv">
 <div id = "schedule"></div>
 <div id = "grades"></div>
 <div id = "classes"></div>
@@ -28,7 +44,7 @@
 <input id="createclass">
 <button id="sendcreatedclass">Add to your schedule!</button>
 
-
+</div>
 
 <script>
 
