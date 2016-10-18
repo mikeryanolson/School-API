@@ -59,8 +59,8 @@ var server = http.createServer((req, res) => {
             req.on('end', function() {
                 var obj = {
                     name: queryData,
-                    grade: "TBD",
-                    homework: "TBD"
+                    grade: false;
+                    homework: false;
                 };
                 classes.push(obj);
             });
